@@ -13,13 +13,12 @@ monitor:  equ	0xdbff
 ;;Routine to print a character
 ;;
 
-print_char:  ld b,a 
-
+print_char:  ld c,a 
 print_char_loop:  in a,(3)
 
     and 001h
     jp z,print_char_loop
-    ld a,b
+    ld a,c
     out (2),a 
     ret
 
@@ -54,29 +53,22 @@ press_enter:  in a,(3)
 ;;Clear routines
 ;;
 
-clear_display:  ld b,019h
-
-    
-    call clear_display_2
-    
-clear_display_2:  
+clear_display:  ld b,019h    
+clear_display_loop:  
 
     call newline    
-    djnz clear_display_2
+    djnz clear_display_loop
     ret
 
 ;;
 ;;Routines to print multiple spaces NOTE: load a value into the b register prior to calling
 ;;
 
-jump_spaces_1:  ld a,020h 
-
-    call jump_spaces_2
-
-jump_spaces_2:  
+jump_spaces:  ld a,020h 
+jump_spaces_loop:  
 
     call print_char
-    djnz jump_spaces_2
+    djnz jump_spaces_loop
     ret
 
 ;;
@@ -95,209 +87,209 @@ startup_messages:  ld hl,Top_Bar_Color
 
     call print_string
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld hl,Main_Panel_Color
     call print_string
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
     ld hl,Window_Color
     call print_string
     ld b,028h
-    call jump_spaces_1
+    call jump_spaces
     ld hl,Main_Panel_Color
     call print_string
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
     ld hl,Window_Color
     call print_string
     ld b,028h
-    call jump_spaces_1
+    call jump_spaces
     ld hl,Main_Panel_Color
     call print_string
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
     ld hl,Window_Color
     call print_string
     ld b,00ah
-    call jump_spaces_1
+    call jump_spaces
 
     ld hl,Welcome_Message
     call print_string
     ld b,00ah
-    call jump_spaces_1
+    call jump_spaces
 
     ld hl,Main_Panel_Color
     call print_string
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
     ld hl,Window_Color
     call print_string
     ld b,028h
-    call jump_spaces_1
+    call jump_spaces
 
     ld hl,Main_Panel_Color
     call print_string
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
     ld hl,Window_Color
     call print_string
     ld b,028h
-    call jump_spaces_1
+    call jump_spaces
 
     ld hl,Main_Panel_Color
     call print_string
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
     ld hl,Window_Color
     call print_string
     ld b,00ah
-    call jump_spaces_1
+    call jump_spaces
 
     ld hl,Please_Enter
     call print_string
     ld b,00ah
-    call jump_spaces_1
+    call jump_spaces
 
     ld hl,Main_Panel_Color
     call print_string
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
     ld hl,Window_Color
     call print_string
     ld b,028h
-    call jump_spaces_1
+    call jump_spaces
 
     ld hl,Main_Panel_Color
     call print_string
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
     ld hl,Window_Color
     call print_string
     ld b,028h
-    call jump_spaces_1
+    call jump_spaces
 
     ld hl,Main_Panel_Color
     call print_string
     ld b,014h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     call newline
 
     ld b,050h
-    call jump_spaces_1
+    call jump_spaces
 
     ret
 
