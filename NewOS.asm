@@ -1,18 +1,17 @@
 ;;Program start at 0000h
 
 org 0800h
+jp cold_start
 
-;;Init of the serial port at 9600 baud
-;;Can only be called once per reset
+;;
+;;Memory Definitions
+;;
 
-init_port:  ld a,04eh
+monitor:  equ	0xdbff
 
-    out (3),a
-    ld a,037h
-    out (3),a 
-    ret 
-
+;;
 ;;Routine to print a character
+;;
 
 print_char:  ld b,a 
 
@@ -40,23 +39,6 @@ print_string:  in a,(3)
     jp print_string
 
 ;;
-;;load file from port
-;;
-
-load_file:  in a,(3)
-
-    and 002h
-    jp z,load_file
-    in a,(2)
-    ld (hl),a
-    inc hl
-    dec bc 
-    ld a,b 
-    or c 
-    jp nz,load_file
-    ret
-
-;;
 ;;Press any key routine
 ;;
 
@@ -77,9 +59,10 @@ clear_display:  ld b,019h
     
     call clear_display_2
     
-clear_display_2:  call newline    
+clear_display_2:  
 
-    djnz clear_display
+    call newline    
+    djnz clear_display_2
     ret
 
 ;;
@@ -90,8 +73,9 @@ jump_spaces_1:  ld a,020h
 
     call jump_spaces_2
 
-jump_spaces_2:  call print_char
+jump_spaces_2:  
 
+    call print_char
     djnz jump_spaces_2
     ret
 
@@ -361,9 +345,8 @@ Tada: defm "Tada",0
 ;; Stuff to execute
 ;;
 
-cold_start:  ld sp,ROM_monitor
+cold_start:  ld sp,monitor
 
-    call init_port
     ld hl,Text
     call print_string
     call startup_messages
@@ -373,9 +356,7 @@ cold_start:  ld sp,ROM_monitor
     call print_string
     
 
-;;
-;;call after software reset
-;;
 
-warm_start: call clear_display
+
+
 
