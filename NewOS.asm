@@ -1,6 +1,6 @@
 ;;Program start at 0000h
 
-org 0000h;
+org 0800h
 
 ;;Init of the serial port at 9600 baud
 ;;Can only be called once per reset
