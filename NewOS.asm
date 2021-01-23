@@ -78,6 +78,9 @@ jump_spaces_loop:
 newline:  ld a,00ah
 
     call print_char
+    ld a,00dh
+    call print_char
+    ret
 
 ;;
 ;;All the startup message routines
@@ -89,50 +92,29 @@ startup_messages:  ld hl,Top_Bar_Color
     ld b,050h
     call jump_spaces
 
-    call newline
 
     ld hl,Main_Panel_Color
     call print_string
     ld b,050h
     call jump_spaces
 
-    call newline
+
+    ld b,07h
+    loop1:
+
+    ld d,b
 
     ld b,050h
     call jump_spaces
 
-    call newline
 
-    ld b,050h
-    call jump_spaces
+    ld b,d
+    djnz loop1
 
-    call newline
+    ld b,02h
+    loop2:
 
-    ld b,050h
-    call jump_spaces
-
-    call newline
-
-    ld b,050h
-    call jump_spaces
-
-    call newline
-
-    ld b,050h
-    call jump_spaces
-
-    call newline
-
-    ld b,050h
-    call jump_spaces
-
-    call newline
-
-    ld b,050h
-    call jump_spaces
-
-    call newline
-
+    ld d,b
     ld b,014h
     call jump_spaces
     ld hl,Window_Color
@@ -144,20 +126,9 @@ startup_messages:  ld hl,Top_Bar_Color
     ld b,014h
     call jump_spaces
 
-    call newline
 
-    ld b,014h
-    call jump_spaces
-    ld hl,Window_Color
-    call print_string
-    ld b,028h
-    call jump_spaces
-    ld hl,Main_Panel_Color
-    call print_string
-    ld b,014h
-    call jump_spaces
-
-    call newline
+    ld b,d
+    djnz loop2
 
     ld b,014h
     call jump_spaces
@@ -176,8 +147,11 @@ startup_messages:  ld hl,Top_Bar_Color
     ld b,014h
     call jump_spaces
 
-    call newline
 
+    ld b,02h
+    loop3:
+    ld d,b
+    
     ld b,014h
     call jump_spaces
     ld hl,Window_Color
@@ -190,21 +164,9 @@ startup_messages:  ld hl,Top_Bar_Color
     ld b,014h
     call jump_spaces
 
-    call newline
 
-    ld b,014h
-    call jump_spaces
-    ld hl,Window_Color
-    call print_string
-    ld b,028h
-    call jump_spaces
-
-    ld hl,Main_Panel_Color
-    call print_string
-    ld b,014h
-    call jump_spaces
-
-    call newline
+    ld b,d
+    djnz loop3
 
     ld b,014h
     call jump_spaces
@@ -223,8 +185,11 @@ startup_messages:  ld hl,Top_Bar_Color
     ld b,014h
     call jump_spaces
 
-    call newline
 
+    ld b,02h
+    loop4:
+    ld d,b
+    
     ld b,014h
     call jump_spaces
     ld hl,Window_Color
@@ -237,59 +202,22 @@ startup_messages:  ld hl,Top_Bar_Color
     ld b,014h
     call jump_spaces
 
-    call newline
 
-    ld b,014h
-    call jump_spaces
-    ld hl,Window_Color
-    call print_string
-    ld b,028h
-    call jump_spaces
+    ld b,d
+    djnz loop4
 
-    ld hl,Main_Panel_Color
-    call print_string
-    ld b,014h
-    call jump_spaces
+    ld b,07h
+    loop5:
 
-    call newline
+    ld d,b
 
     ld b,050h
     call jump_spaces
 
-    call newline
 
-    ld b,050h
-    call jump_spaces
-
-    call newline
-
-    ld b,050h
-    call jump_spaces
-
-    call newline
-
-    ld b,050h
-    call jump_spaces
-
-    call newline
-
-    ld b,050h
-    call jump_spaces
-
-    call newline
-
-    ld b,050h
-    call jump_spaces
-
-    call newline
-
-    ld b,050h
-    call jump_spaces
-
-    call newline
-
-    ld b,050h
-    call jump_spaces
+    ld b,d
+    djnz loop5
+    
 
     ret
 
@@ -320,9 +248,9 @@ startup_messages:  ld hl,Top_Bar_Color
 ;; Colors
 ;;
 
-Top_Bar_Color:  defm "\033[48;5;250m",0
-Main_Panel_Color:  defm "\033[48;5;255m",0
-Window_Color:  defm "\033[48;5;7m",0
+Top_Bar_Color:  defm "\033[48;5;17m",0
+Main_Panel_Color:  defm "\033[48;5;6m",0
+Window_Color:  defm "\033[48;5;21m",0
 Text:  defm "\033[38;5;0m",0
 
 ;;
@@ -341,6 +269,7 @@ cold_start:  ld sp,monitor
 
     ld hl,Text
     call print_string
+    call clear_display
     call startup_messages
     call press_enter
     call clear_display
